@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: upload-download-system
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgres}
+    username: postgres
+    password: postgres
+    initialization-mode: always
+
+
+  jpa:
+    generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        storage_engine: innodb
+        format_sql: false
+        show_sql: true
+        globally_quoted_ids: true
+        enable_lazy_load_no_trans: true
+        hbm2ddl:
+          auto: create
+        jdbc:
+          time_zone: UTC
+
+management:
+  endpoint:
+    health:
+      show-details: always
