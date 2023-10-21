@@ -5,7 +5,6 @@
 ## Improvements
 * Add user authentication and management
 * checking authorization for each user from token
-* add interface for each service
 
 
 ------------------------------------------

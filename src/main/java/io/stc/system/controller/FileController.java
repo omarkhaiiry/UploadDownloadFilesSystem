@@ -6,6 +6,7 @@ import io.stc.system.exception.UserHasNoAccessException;
 import io.stc.system.exception.UserUnAuthorizedException;
 import io.stc.system.model.File;
 import io.stc.system.service.FileService;
+import io.stc.system.service.FileServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

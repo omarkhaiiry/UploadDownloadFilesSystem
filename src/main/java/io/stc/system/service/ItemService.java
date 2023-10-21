@@ -4,50 +4,13 @@ import io.stc.system.exception.InvalidDataStructureException;
 import io.stc.system.exception.UserHasNoAccessException;
 import io.stc.system.exception.UserUnAuthorizedException;
 import io.stc.system.model.Item;
-import io.stc.system.model.PermissionGroup;
-import io.stc.system.repo.ItemRepo;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class ItemService {
+public interface ItemService {
+    List<Item> getAll();
 
-    private final ItemRepo repo;
-    private final PermissionService permissionService;
-    private final PermissionGroupService permissionGroupService;
+    Item getById(int id);
 
-    public List<Item> getAll() {
-        return repo.findAll();
-    }
-
-    public Item getById(int id) {
-        return repo.findById(id).orElse(null);
-    }
-
-    public Item add(Item entity,String email) throws InvalidDataStructureException, UserUnAuthorizedException, UserHasNoAccessException {
-        Item parent = repo.findById(entity.getParentItemId()).orElse(null);
-        checkStructure( entity,parent);
-        if(parent != null) {
-            permissionService.checkHasAccessAndPermissionLevel(email,parent.getPermissionGroup().getId(),true);
-        }
-        PermissionGroup permissionGroup = permissionGroupService.getById(entity.getPermissionGroupId());
-        entity.setParentItem(parent);
-        entity.setPermissionGroup(permissionGroup);
-        return repo.save(entity);
-    }
-
-    public void checkStructure(Item entity,Item parent) throws InvalidDataStructureException {
-        String acceptedType;
-        switch (entity.getType().getValue()) {
-            case "File" -> acceptedType = "Folder";
-            case "Folder" -> acceptedType = "Space";
-            default -> acceptedType = null;
-        }
-        if(!((parent == null && acceptedType == null) || (parent != null && parent.getType().getValue().equals(acceptedType)))) {
-            throw new InvalidDataStructureException();
-        }
-    }
+    Item add(Item entity, String email) throws InvalidDataStructureException, UserUnAuthorizedException, UserHasNoAccessException;
 }

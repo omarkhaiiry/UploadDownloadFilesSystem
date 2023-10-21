@@ -2,37 +2,17 @@ package io.stc.system.service;
 
 import io.stc.system.exception.PermissionGroupNotFoundException;
 import io.stc.system.model.PermissionGroup;
-import io.stc.system.repo.PermissionGroupRepo;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class PermissionGroupService {
+public interface PermissionGroupService {
+    List<PermissionGroup> getAll();
 
-    private final PermissionGroupRepo repo;
+    PermissionGroup getById(int id);
 
-    public List<PermissionGroup> getAll() {
-        return repo.findAll();
-    }
+    PermissionGroup add(PermissionGroup entity);
 
-    public PermissionGroup getById(int id){
-        return repo.findById(id).orElse(null);
-    }
+    PermissionGroup update(PermissionGroup entity) throws PermissionGroupNotFoundException;
 
-    public PermissionGroup add(PermissionGroup entity){
-        return repo.save(entity);
-    }
-
-    public PermissionGroup update(PermissionGroup entity) throws PermissionGroupNotFoundException {
-        PermissionGroup permissionGroup = getById(entity.getId());
-        if(permissionGroup == null) throw new PermissionGroupNotFoundException();
-        return repo.save(entity);
-    }
-
-    public void removeById(int id){
-        repo.deleteById(id);
-    }
+    void removeById(int id);
 }

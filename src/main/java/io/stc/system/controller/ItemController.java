@@ -32,11 +32,4 @@ public class ItemController {
     public Item add(@Validated @RequestBody Item entity, @RequestParam String email) throws InvalidDataStructureException, UserNotFoundException, UserUnAuthorizedException, UserHasNoAccessException {
         return service.add(entity, email);
     }
-
-
-
-    @DeleteMapping("{id}")
-    public void removeById(@PathVariable int id) {
-        service.removeById(id);
-    }
 }

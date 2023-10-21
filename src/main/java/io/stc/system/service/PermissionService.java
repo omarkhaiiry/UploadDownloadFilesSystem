@@ -12,33 +12,34 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PermissionService {
+public class PermissionService implements PermissionServiceInterface {
 
     private final PermissionRepo repo;
-    private final PermissionGroupService permissionGroupService;
+    private final PermissionGroupServiceImpl permissionGroupService;
 
+    @Override
     public List<Permission> getAll() {
         return repo.findAll();
     }
-
+    @Override
     public Permission getById(int id){
         return repo.findById(id).orElse(null);
     }
-
+    @Override
     public Permission add(Permission entity){
         PermissionGroup permissionGroup = permissionGroupService.getById(entity.getGroupId());
         entity.setGroup(permissionGroup);
         return repo.save(entity);
     }
-
+    @Override
     public Permission update(Permission entity){
         return repo.save(entity);
     }
-
+    @Override
     public void removeById(int id){
         repo.deleteById(id);
     }
-
+    @Override
     public void checkHasAccessAndPermissionLevel(String email,int groupId,boolean needEditAccess) throws UserHasNoAccessException, UserUnAuthorizedException {
         Permission permission = repo.findByUserEmailAndGroupId(email, groupId);
         if(permission == null){
