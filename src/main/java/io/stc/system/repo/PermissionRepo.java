@@ -8,5 +8,4 @@ public interface PermissionRepo extends JpaRepository<Permission, Integer> {
 
     @Query(value = "SELECT * FROM permission p WHERE p.user_email = ?1 AND p.group_id = ?2", nativeQuery = true)
     Permission findByUserEmailAndGroupId(String email, int groupId);
-    Permission findByUserEmail(String email);
 }

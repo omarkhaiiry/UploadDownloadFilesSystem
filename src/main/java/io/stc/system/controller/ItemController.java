@@ -1,6 +1,7 @@
 package io.stc.system.controller;
 
 import io.stc.system.exception.InvalidDataStructureException;
+import io.stc.system.exception.UserHasNoAccessException;
 import io.stc.system.exception.UserNotFoundException;
 import io.stc.system.exception.UserUnAuthorizedException;
 import io.stc.system.model.Item;
@@ -28,7 +29,7 @@ public class ItemController {
     }
 
     @PostMapping()
-    public Item add(@Validated @RequestBody Item entity, @RequestParam String email) throws InvalidDataStructureException, UserNotFoundException, UserUnAuthorizedException {
+    public Item add(@Validated @RequestBody Item entity, @RequestParam String email) throws InvalidDataStructureException, UserNotFoundException, UserUnAuthorizedException, UserHasNoAccessException {
         return service.add(entity, email);
     }
 

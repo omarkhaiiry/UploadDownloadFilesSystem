@@ -26,7 +26,7 @@ spring:
         globally_quoted_ids: true
         enable_lazy_load_no_trans: true
         hbm2ddl:
-          auto: create
+          auto: validate
         jdbc:
           time_zone: UTC
 

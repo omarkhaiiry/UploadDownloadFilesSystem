@@ -1,5 +1,6 @@
 package io.stc.system.controller;
 
+import io.stc.system.exception.PermissionGroupNotFoundException;
 import io.stc.system.model.PermissionGroup;
 import io.stc.system.service.PermissionGroupService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,10 @@ public class PermissionGroupController {
     @PostMapping()
     public PermissionGroup add(@Validated @RequestBody PermissionGroup entity) {
         return service.add(entity);
+    }
+    @PutMapping()
+    public PermissionGroup update(@Validated @RequestBody PermissionGroup entity) throws PermissionGroupNotFoundException {
+        return service.update(entity);
     }
 
     @DeleteMapping("{id}")

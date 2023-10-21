@@ -1,7 +1,7 @@
 package io.stc.system.service;
 
 import io.stc.system.exception.InvalidDataStructureException;
-import io.stc.system.exception.UserNotFoundException;
+import io.stc.system.exception.UserHasNoAccessException;
 import io.stc.system.exception.UserUnAuthorizedException;
 import io.stc.system.model.Item;
 import io.stc.system.model.PermissionGroup;
@@ -27,29 +27,23 @@ public class ItemService {
         return repo.findById(id).orElse(null);
     }
 
-    public Item add(Item entity,String email) throws InvalidDataStructureException, UserNotFoundException, UserUnAuthorizedException {
-        permissionService.checkEditPermissionLevel(email);
+    public Item add(Item entity,String email) throws InvalidDataStructureException, UserUnAuthorizedException, UserHasNoAccessException {
         Item parent = repo.findById(entity.getParentItemId()).orElse(null);
         checkStructure( entity,parent);
+        if(parent != null) {
+            permissionService.checkHasAccessAndPermissionLevel(email,parent.getPermissionGroup().getId(),true);
+        }
         PermissionGroup permissionGroup = permissionGroupService.getById(entity.getPermissionGroupId());
         entity.setParentItem(parent);
         entity.setPermissionGroup(permissionGroup);
         return repo.save(entity);
     }
 
-    public Item update(Item entity) {
-        return repo.save(entity);
-    }
-
-    public void removeById(int id) {
-        repo.deleteById(id);
-    }
-
     public void checkStructure(Item entity,Item parent) throws InvalidDataStructureException {
         String acceptedType;
         switch (entity.getType().getValue()) {
             case "File" -> acceptedType = "Folder";
-            case "Folder" -> acceptedType = "File";
+            case "Folder" -> acceptedType = "Space";
             default -> acceptedType = null;
         }
         if(!((parent == null && acceptedType == null) || (parent != null && parent.getType().getValue().equals(acceptedType)))) {

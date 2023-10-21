@@ -11,13 +11,16 @@ services:
       - POSTGRES_PASSWORD=toor
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    network_mode: "host"
 
   spring-app:
     build:
-      context: .
-      dockerfile: ../Dockerfile
+      context: ..
+      dockerfile: Dockerfile
     container_name: spring-app
     ports:
       - 8080:8080
     depends_on:
       - postgres-server
+    network_mode: "host"
+

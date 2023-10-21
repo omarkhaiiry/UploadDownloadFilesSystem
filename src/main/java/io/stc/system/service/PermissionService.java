@@ -1,7 +1,6 @@
 package io.stc.system.service;
 
 import io.stc.system.exception.UserHasNoAccessException;
-import io.stc.system.exception.UserNotFoundException;
 import io.stc.system.exception.UserUnAuthorizedException;
 import io.stc.system.model.Permission;
 import io.stc.system.model.PermissionGroup;
@@ -46,16 +45,6 @@ public class PermissionService {
             throw new UserHasNoAccessException();
         }
         if(needEditAccess && permission.getPermissionLevel().getValue().equals("VIEW")){
-            throw new UserUnAuthorizedException();
-        }
-
-    }
-    public void checkEditPermissionLevel(String email) throws UserNotFoundException, UserUnAuthorizedException {
-        Permission permission = repo.findByUserEmail(email);
-        if(permission == null){
-            throw new UserNotFoundException();
-        }
-        if(permission.getPermissionLevel().getValue().equals("VIEW")){
             throw new UserUnAuthorizedException();
         }
 

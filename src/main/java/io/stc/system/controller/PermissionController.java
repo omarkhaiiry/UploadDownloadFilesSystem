@@ -2,7 +2,6 @@ package io.stc.system.controller;
 
 import io.stc.system.model.Permission;
 import io.stc.system.service.PermissionService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

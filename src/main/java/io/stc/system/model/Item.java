@@ -3,16 +3,17 @@ package io.stc.system.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.stc.system.model.enums.ItemType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @Entity()
+@NoArgsConstructor
+@AllArgsConstructor
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -44,7 +45,7 @@ public class Item {
     private File file;
 
     @Transient
-    private Integer parentItemId;
+    private int parentItemId;
     @Transient
-    private Integer permissionGroupId;
+    private int permissionGroupId;
 }
